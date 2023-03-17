@@ -67,7 +67,7 @@ with DAG(
     fetch_model_dependecies = PythonVirtualenvOperator(
         task_id='fetch-model-dependencies',
         python_callable=_fetch_model_dependecies,
-        requirements=['mlflow-skinny==1.26.1'],
+        requirements=['mlflow-skinny==2.2.*'],
         op_kwargs={
             'mlflow_tracking_uri': MLFLOW_TRACKING_URI,
             'model_uri': MODEL_URI,
@@ -79,7 +79,7 @@ with DAG(
         task_id='build-bento',
         python_callable=_build_bento,
         requirements='''
-            mlflow-skinny==1.26.1
+            mlflow-skinny==2.2.*
             bentoml>=1.0
             {{ ti.xcom_pull(task_ids="fetch-model-dependencies").requirements | join("\n") }}
         ''',
